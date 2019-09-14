@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.share.dao.ShProductDao">
+    
+	<sql id="shProductColumns">
+		a.id AS "id",
+		a.creater AS "creater",
+		a.producttype AS "producttype",
+		a.coverimageid AS "coverimageid",
+		a.coverimage AS "coverimage",
+		a.point AS "point",
+		a.shop_id AS "shopId",
+		a.shop_name AS "shopName",
+		a.introduce AS "introduce",
+		a.detail AS "detail",
+		a.status AS "status",
+		a.start_time AS "startTime",
+		a.end_time AS "endTime"
+	</sql>
+	
+	<sql id="shProductJoins">
+	</sql>
+    
+	<select id="get" resultType="ShProduct">
+		SELECT 
+			<include refid="shProductColumns"/>
+		FROM sh_product a
+		<include refid="shProductJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ShProduct">
+		SELECT 
+			<include refid="shProductColumns"/>
+		FROM sh_product a
+		<include refid="shProductJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ShProduct">
+		SELECT 
+			<include refid="shProductColumns"/>
+		FROM sh_product a
+		<include refid="shProductJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sh_product(
+			id,
+			creater,
+			producttype,
+			coverimageid,
+			coverimage,
+			point,
+			shop_id,
+			shop_name,
+			introduce,
+			detail,
+			status,
+			start_time,
+			end_time
+		) VALUES (
+			#{id},
+			#{creater},
+			#{producttype},
+			#{coverimageid},
+			#{coverimage},
+			#{point},
+			#{shopId},
+			#{shopName},
+			#{introduce},
+			#{detail},
+			#{status},
+			#{startTime},
+			#{endTime}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sh_product SET 	
+			creater = #{creater},
+			producttype = #{producttype},
+			coverimageid = #{coverimageid},
+			coverimage = #{coverimage},
+			point = #{point},
+			shop_id = #{shopId},
+			shop_name = #{shopName},
+			introduce = #{introduce},
+			detail = #{detail},
+			status = #{status},
+			start_time = #{startTime},
+			end_time = #{endTime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sh_product
+		WHERE id = #{id}
+	</update>
+	
+</mapper>

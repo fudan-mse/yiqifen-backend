@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.thinkgem.jeesite.modules.share.dao.ShOrderDao">
+    
+	<sql id="shOrderColumns">
+		a.id AS "id",
+		a.product_id AS "productId",
+		a.product_name AS "productName",
+		a.shop_id AS "shopId",
+		a.shop_name AS "shopName",
+		a.user_id AS "user.id",
+		a.user_name AS "userName",
+		a.status AS "status",
+		a.count AS "count",
+		a.address AS "address",
+		u6.name AS "user.name"
+	</sql>
+	
+	<sql id="shOrderJoins">
+		LEFT JOIN sys_user u6 ON u6.id = a.user_id
+	</sql>
+    
+	<select id="get" resultType="ShOrder">
+		SELECT 
+			<include refid="shOrderColumns"/>
+		FROM sh_order a
+		<include refid="shOrderJoins"/>
+		WHERE a.id = #{id}
+	</select>
+	
+	<select id="findList" resultType="ShOrder">
+		SELECT 
+			<include refid="shOrderColumns"/>
+		FROM sh_order a
+		<include refid="shOrderJoins"/>
+		<where>
+			
+		</where>
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<select id="findAllList" resultType="ShOrder">
+		SELECT 
+			<include refid="shOrderColumns"/>
+		FROM sh_order a
+		<include refid="shOrderJoins"/>
+		<where>
+			
+		</where>		
+		<choose>
+			<when test="page !=null and page.orderBy != null and page.orderBy != ''">
+				ORDER BY ${page.orderBy}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</select>
+	
+	<insert id="insert">
+		INSERT INTO sh_order(
+			id,
+			product_id,
+			product_name,
+			shop_id,
+			shop_name,
+			user_id,
+			user_name,
+			status,
+			count,
+			address
+		) VALUES (
+			#{id},
+			#{productId},
+			#{productName},
+			#{shopId},
+			#{shopName},
+			#{user.id},
+			#{userName},
+			#{status},
+			#{count},
+			#{address}
+		)
+	</insert>
+	
+	<update id="update">
+		UPDATE sh_order SET 	
+			product_id = #{productId},
+			product_name = #{productName},
+			shop_id = #{shopId},
+			shop_name = #{shopName},
+			user_id = #{user.id},
+			user_name = #{userName},
+			status = #{status},
+			count = #{count},
+			address = #{address}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="delete">
+		DELETE FROM sh_order
+		WHERE id = #{id}
+	</update>
+	
+</mapper>
